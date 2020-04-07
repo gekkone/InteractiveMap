@@ -7,10 +7,10 @@ services:
     environment:
       - VIRTUAL_HOST=sites.local
       - WEB_PHP_SOCKET=php:9000
-      - WEB_DOCUMENT_ROOT=/var/www/html
+      - WEB_DOCUMENT_ROOT=/var/www/html/public
       - WEB_DOCUMENT_INDEX=index.php index.html
     volumes:
-       - ../../InteractiveMap:/var/www/InteractiveMap
+       - ../app:/var/www/html
     depends_on:
       - php
     ports:
@@ -24,7 +24,7 @@ services:
       context: ./php
     volumes:
       - ./php/php.ini:/usr/local/etc/php/php.ini
-      - ../../InteractiveMap:/var/www/InteractiveMap
+      - ../app:/var/www/html
     networks:
       - backend
 
