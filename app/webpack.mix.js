@@ -11,5 +11,24 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/js/app.js', 'public/js/app')
     .sass('resources/sass/app.scss', 'public/css');
+
+mix.webpackConfig({
+    resolve: {
+        modules: [
+            path.resolve(__dirname, 'vendor/laravel/spark/resources/assets/js'),
+            path.resolve('./node_modules')
+        ]
+    }
+});
+
+//mix.disableNotifications();
+
+// if (mix.inProduction()) {
+//     mix.version();
+// }
+
+// mix.browserSync({
+//     proxy: 'my-domain.dev'
+// });
