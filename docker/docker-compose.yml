@@ -1,0 +1,61 @@
+version: '3.5'
+
+services:
+
+  apache:
+    image: webdevops/apache-dev:latest
+    environment:
+      - VIRTUAL_HOST=sites.local
+      - WEB_PHP_SOCKET=php:9000
+      - WEB_DOCUMENT_ROOT=/var/www/html
+      - WEB_DOCUMENT_INDEX=index.php index.html
+    volumes:
+       - ../../InteractiveMap:/var/www/InteractiveMap
+    depends_on:
+      - php
+    ports:
+      - 80:80
+    networks:
+      - frontend
+      - backend
+
+  php:
+    build:
+      context: ./php
+    volumes:
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ../../InteractiveMap:/var/www/InteractiveMap
+    networks:
+      - backend
+
+  mysql:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: db
+      MYSQL_PASSWORD: db
+    networks:
+      - backend
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      - VIRTUAL_HOST=phpmyadmin.local
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    networks:
+      - frontend
+      - backend
+    ports:
+      - 8080:80
+
+networks:
+    backend:
+    frontend:
