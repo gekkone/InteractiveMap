@@ -1,13 +1,25 @@
 import { Scene } from './scene';
 
-export class Engine {
+export class Engine extends EventTarget {
     constructor(canvas) {
+        super();
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
         this._scenes = new Map();
         this._activeScene = null;
+
+        window.addEventListener('resize', () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+            this.dispatchEvent(new CustomEvent('resizeCanvas', {
+                detail: {
+                    width: window.innerWidth,
+                    height: window.innerHeight
+                }
+            }));
+        });
     }
 
     scene(name) {
@@ -26,7 +38,7 @@ export class Engine {
     setActiveScene(sceneName) {
         this._activeScene = this._scenes.get(sceneName);
         if (!this._activeScene.isLoad) {
-            this._activeScene.load().then(()=> {console.debug(`${this._activeScene.name} успешно загружена`)});
+            this._activeScene.load().then(() => { console.debug(`${this._activeScene.name} успешно загружена`) });
         }
     }
 

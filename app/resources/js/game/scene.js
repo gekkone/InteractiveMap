@@ -1,7 +1,10 @@
-export class Scene {
+export default class Scene {
     constructor(name, game) {
         this._isLoad = false;
         this._objects = new Map();
+
+        this.imageResources = new Map();
+        this.camera = null;
 
         this.name = name;
         this.game = game;
@@ -27,7 +30,16 @@ export class Scene {
             this.game.context.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
             this._objects.forEach((object) => {
-                object.render(time);
+                if (this.camera != null) {
+                    // Следует отрисовывать только видимые объекты
+                    if ((object.x + object.width >= this.camera.x)
+                        && object.y + object.height >= this.camera.y) {
+                        object.render(time);
+                    }
+                }
+                else {
+                    object.render(time);
+                }
             });
         }
     }
