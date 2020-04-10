@@ -50,7 +50,7 @@ export class MovableObject extends DisplayObject {
     render(time) {
         if (this.isMoves()
             && (this._lastRender == 0 || time - this._lastRender >= this._speed)) {
-            let skippedSycleFactor = (time - this._lastRender) / this._speed;
+            let skippedSycleFactor = this._lastRender > 0 ? (time - this._lastRender) / this._speed : 1;
             this._lastRender = time;
 
 
@@ -68,7 +68,7 @@ export class MovableObject extends DisplayObject {
                 this.y = this._movedPosition.y;
             }
 
-            console.log(this.x, this.y);
+            console.debug(this.x, this.y);
         }
 
         super.render(time);
