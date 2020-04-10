@@ -11,10 +11,14 @@ export default class DisplayObject {
 
         this._x = 0;
         this._y = 0;
-        this.width = 0;
-        this.height = 0;
+        this._width = 0;
+        this._height = 0;
         this.isVisible = true;
         this.zIndex = 0;
+    }
+
+    get scene() {
+        return this._scene;
     }
 
     get x() {
@@ -31,8 +35,18 @@ export default class DisplayObject {
         this._y = value;
     }
 
-    get scene() {
-        return this._scene;
+    get width() {
+        return this._scene.camera != null ? this._width * this._scene.camera.scale : this._width;
+    }
+    set width(value) {
+        this._width = value;
+    }
+
+    get height() {
+        return this._scene.camera != null ? this._height * this._scene.camera.scale : this._height;
+    }
+    set height(value) {
+        this._height = value
     }
 
     render(time) {
