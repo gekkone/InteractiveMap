@@ -11,8 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js/app')
-    .sass('resources/sass/app.scss', 'public/css');
+mix.js('resources/js/app.js', 'public/js/app');
+
+mix.styles(['resources/css/map.css'], 'public/css/map.css');
 
 mix.webpackConfig({
     resolve: {
@@ -23,7 +24,7 @@ mix.webpackConfig({
     }
 });
 
-//mix.disableNotifications();
+mix.disableNotifications();
 
 // if (mix.inProduction()) {
 //     mix.version();
