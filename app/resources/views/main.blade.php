@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimal-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="{{ mix('/css/map.css') }}">
     <script src="{{ mix('/js/app/app.js') }}"> </script>
     <title>Демо</title>

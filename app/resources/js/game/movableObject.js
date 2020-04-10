@@ -1,6 +1,6 @@
-import { DisplayObject } from './displayObject';
+import DisplayObject from './displayObject';
 
-export class MovableObject extends DisplayObject {
+export default class MovableObject extends DisplayObject {
     constructor(scene) {
         super(scene);
 

@@ -13,7 +13,10 @@ export default class ImageLoader {
                 this.images.set(name, image);
 
                 image.onload = () => resolve(name);
-                image.onerror = (e) => reject(e);
+                image.onerror = (e) => {
+                    console.error (`unload ${path} \n` + e);
+                    reject(e);
+                }
             })
             promises.push(promise);
         });
