@@ -1,6 +1,6 @@
-import { Scene } from './scene';
+import Scene from './scene';
 
-export class Engine extends EventTarget {
+export default class Engine extends EventTarget {
     constructor(canvas) {
         super();
         canvas.width = window.innerWidth;

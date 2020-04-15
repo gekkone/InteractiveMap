@@ -1,6 +1,6 @@
 import './bootstrap';
 
-import { Engine } from './game/egine';
+import Engine from './game/egine';
 import QuestScene from './game/scenes/questScene';
 
 window.addEventListener('load', () => {
