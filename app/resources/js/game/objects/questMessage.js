@@ -1,18 +1,20 @@
 export default class QuestMessage {
     constructor(scene) {
         this._scene = scene;
+
+        this.maxWidth = 300;
+        this.maxHeight = 400;
+
         this._element = document.createElement('div');
         this._element.setAttribute('class', 'popup_message');
-        this._element.innerHTML = '<p class="popup_message__title">Тестовый текст. Лалал лалла лллаа </p>';
-
         document.body.appendChild(this._element);
     }
 
     setText(text) {
-        this._element.innerHTML = `<p>${text}</p>`;
+        this._element.innerHTML = `<p class="popup_message__title">${text}</p>`;
     }
 
-    setActions(actions) {
+    addAction(action) {
         let actionsElm = this._element.querySelector('.popup_message__actions');
         if (actionsElm == null) {
             actionsElm = document.createElement('div');
@@ -20,13 +22,11 @@ export default class QuestMessage {
             this._element.appendChild(actionsElm);
         }
 
-        actions.forEach(action => {
-            let actionElm = document.createElement('span');
-            actionElm.innerHTML = action.text;
-            actionElm.addEventListener('click', action.fn);
+        let actionElm = document.createElement('span');
+        actionElm.innerHTML = action.text;
+        actionElm.addEventListener('click', action.fn);
 
-            actionsElm.appendChild(actionElm);
-        });
+        actionsElm.appendChild(actionElm);
     }
 
     setPosition(x, y) {
