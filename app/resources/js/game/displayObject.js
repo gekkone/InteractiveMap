@@ -1,7 +1,9 @@
 import Scene from "./scene";
 
-export default class DisplayObject {
-    constructor (scene) {
+export default class DisplayObject extends EventTarget {
+    constructor(scene) {
+        super()
+
         if (scene instanceof Scene) {
             this._scene = scene;
         }
@@ -22,28 +24,32 @@ export default class DisplayObject {
     }
 
     get x() {
-        return this._scene.camera != null ? this._x - this._scene.camera.x : this._x;
+        return this.scene.camera != null ? this._x * this.scene.camera.scale : this._x;
     }
     set x(value) {
         this._x = value;
     }
 
     get y() {
-        return this._scene.camera != null ? this._y - this._scene.camera.y : this._y;
+        return this.scene.camera != null ? this._y * this.scene.camera.scale : this._y;
     }
     set y(value) {
         this._y = value;
     }
 
+    canvasPos() {
+        return this.scene.mapToGlobalPos(this.x, this.y);
+    }
+
     get width() {
-        return this._scene.camera != null ? this._width * this._scene.camera.scale : this._width;
+        return this.scene.camera != null ? this._width * this.scene.camera.scale : this._width;
     }
     set width(value) {
         this._width = value;
     }
 
     get height() {
-        return this._scene.camera != null ? this._height * this._scene.camera.scale : this._height;
+        return this.scene.camera != null ? this._height * this.scene.camera.scale : this._height;
     }
     set height(value) {
         this._height = value
