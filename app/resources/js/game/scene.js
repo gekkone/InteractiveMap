@@ -1,3 +1,5 @@
+import ResourceManager from "./resourceManager";
+
 export default class Scene {
     constructor(name, game) {
         this._isLoad = false;
@@ -12,6 +14,8 @@ export default class Scene {
         this.height = 0;
         this.x = 0;
         this.y = 0;
+
+        this.resourceManager = new ResourceManager();
     }
 
     mapToGlobalPos(sceneX, sceneY) {

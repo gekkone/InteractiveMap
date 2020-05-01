@@ -1,5 +1,4 @@
 import Scene from '../scene';
-import ImageLoader from '../imageLoader';
 import GameMap from '../objects/gameMap';
 import Camera from '../camera';
 import Player from '../objects/player';
@@ -19,32 +18,31 @@ export default class QuestScene extends Scene {
     }
 
     load() {
-        let loader = new ImageLoader(new Map([
-            ['map', '/img/game/map.jpg'],
-            ['player', '/img/game/player.png']
-        ]));
-
         return new Promise((resolve, reject) => {
-            loader.load().then(() => {
-                this.imageResources = loader.images;
-
+            this.resourceManager.loadImages(new Map([
+                ['map', '/img/game/map.jpg'],
+                ['player', '/img/game/player.png'],
+                ['questPoint', '/img/game/quest-point.png']
+            ])).then(() => {
                 this._initObjects();
-
                 this._isLoad = true;
-            }).catch((e) => {
+
+                resolve();
+            }).catch(e => {
+                console.error(e);
                 reject(e);
             });
         });
     }
 
     _initObjects() {
-        let map = new GameMap(this.imageResources.get('map'), this);
+        let map = new GameMap(this.resourceManager.resource('map'), this);
         this.addObject('map', map);
 
         this.width = map.width;
         this.height = map.height;
 
-        let player = new Player(this.imageResources.get('player'), this);
+        let player = new Player(this.resourceManager.resource('player'), this);
         this.addObject('player', player);
         this.camera.followAt(player, CONSTANTS.CAMERA_FOLLOW_OBJECT_BORDER_DISTANCE);
         player.addEventListener('arrivedPosition', this.playerArrivedPosition.bind(this));
