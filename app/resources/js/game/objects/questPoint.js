@@ -7,10 +7,15 @@ export default class QuestPoint extends DisplayObject {
         this.data = data;
         this.message = null;
 
-        this.radius = 50;
+        this.radius = 100;
 
         this._x = data.mapPoint.x - this._width / 2;
         this._y = data.mapPoint.y - this._height / 2;
+
+        this._image = this.scene.resourceManager.resource('questPoint');
+        if (typeof this._image == 'undefined') {
+            console.error("Для отображения квестовой точки требуется ресурс questPoint");
+        }
     }
 
     get radius() {
@@ -39,11 +44,16 @@ export default class QuestPoint extends DisplayObject {
         super.render(time);
 
         let pos = this.canvasPos();
-        let context = this.scene.game.context;
 
-        context.beginPath();
-        context.fillStyle = "red";
-        context.arc(pos.x + this.radius, pos.y + this.radius, this.radius, 0, 2 * Math.PI, true);
-        context.fill();
+        this.scene.game.context.filter = 'drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.8))';
+        this.scene.game.context.drawImage(
+            this._image,
+            pos.x,
+            pos.y,
+            this.width,
+            this.height);
+        this.scene.game.context.filter = 'none';
+
+        super.render(time);
     }
 }

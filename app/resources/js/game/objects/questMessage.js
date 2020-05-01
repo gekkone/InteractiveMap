@@ -4,14 +4,25 @@ export default class QuestMessage extends DisplayObject {
     constructor(scene) {
         super(scene)
 
-        this.maxWidth = 300;
+        this.maxWidth = 400;
         this.maxHeight = 400;
 
         this._element = document.createElement('div');
         this._element.setAttribute('class', 'popup_message');
         document.body.appendChild(this._element);
 
+        this._element.style.maxWidth = `${this.maxWidth}px`;
+        this._element.style.maxHeight = `${this.maxHeight}px`;
+
         this.isVisible = false;
+    }
+
+    get width() {
+        return this._element.offsetWidth;
+    }
+
+    get height() {
+        return this._element.offsetHeight;
     }
 
     render(time) {
@@ -46,14 +57,16 @@ export default class QuestMessage extends DisplayObject {
     }
 
     show() {
-        setTimeout(() => {
-            this.isVisible = true;
-            this._element.style.opacity = '1';
-        }, 20)
+        this.isVisible = true;
+        this._element.style.opacity = '1';
     }
 
     hide() {
         this.isVisible = false;
         this._element.style.opacity = '0';
+    }
+
+    remove() {
+        this._element.remove();
     }
 }

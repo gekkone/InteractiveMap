@@ -47,8 +47,8 @@ export default class QuestScene extends Scene {
         this.camera.followAt(player, CONSTANTS.CAMERA_FOLLOW_OBJECT_BORDER_DISTANCE);
         player.addEventListener('arrivedPosition', this.playerArrivedPosition.bind(this));
 
-        player.x = 600;
-        player.y = 600;
+        player.x = 800;
+        player.y = 700;
         this.setCurrentQuestPoint(this.createQuestPoint(1));
     }
 
@@ -72,7 +72,7 @@ export default class QuestScene extends Scene {
         }
 
         let player = this._objects.get('player');
-        player.moveTo(questPoint.x - player.width / 2, questPoint.y - player.height, 4);
+        player.moveTo(questPoint.x - player.width / 3.6, questPoint.y - player.height, 4);
         this.currentQuestPoint = questPoint;
     }
 
@@ -82,36 +82,15 @@ export default class QuestScene extends Scene {
             return;
         }
 
-        // let leftSpace = this.camera.x - player.x;
-        // let topSpace = this.camera.y - player.y;
-        // let rightSpace = this.camera.x + this.camera.width - player.x - player.width;
-        // let bottomSpace = this.camera.y + this.camera.height - player.y - player.height;
+        let leftSpace = player.x - this.camera.x;
+        let topSpace = player.y - this.camera.y;
+        let rightSpace = this.camera.x + this.camera.width - player.x - player.width;
+        let bottomSpace = this.camera.y + this.camera.height - player.y - player.height;
 
-        let msgPos = {x: 0, y: 0};
+        console.debug(leftSpace, topSpace, rightSpace, bottomSpace);
 
         let msg = new QuestMessage(this);
         this.addObject('questionMsg', msg);
-
-        // switch (Math.max(leftSpace, topSpace, rightSpace, bottomSpace)) {
-        //     case leftSpace:
-        //         msgPos.x = player.x - msg.maxWidth - CONSTANTS.PLAYER_MSG_MARGIN;
-        //         msgPos.y = player.y;
-        //         break;
-        //     case topSpace:
-        //         msgPos.x = player.x;
-        //         msgPos.y = player.y - msg.maxHeight - CONSTANTS.PLAYER_MSG_MARGIN;
-        //         break;
-        //     case rightSpace:
-        //         msgPos.x = player.x + player.width + msg.maxWidth + CONSTANTS.PLAYER_MSG_MARGIN;
-        //         msgPos.y = player.y;
-        //         break;
-        //     case bottomSpace:
-        //         msgPos.x = player.x;
-        //         msgPos.y = player.y + player.height + msg.maxHeight + CONSTANTS.PLAYER_MSG_MARGIN;
-        // }
-
-        msg.x = player.x + player.width + CONSTANTS.PLAYER_MSG_MARGIN;
-        msg.y = player.y;
 
         let data = this.currentQuestPoint.data;
         msg.setText(data.message);
@@ -121,10 +100,31 @@ export default class QuestScene extends Scene {
                 text: elm.text,
                 fn: () => {
                     msg.hide();
+                    msg.remove();
+                    this.removeObject('questionMsg');
                     this.takingDecision(elm.id);
                 }
             })
         });
+
+        switch (Math.max(leftSpace, topSpace, rightSpace, bottomSpace)) {
+            case leftSpace:
+                console.debug(msg.width, msg._element.offsetWidth);
+                msg.x = player.x - msg.width - CONSTANTS.PLAYER_MSG_MARGIN;
+                msg.y = player.y;
+                break;
+            case topSpace:
+                msg.x = player.x;
+                msg.y = player.y - msg.maxHeight - CONSTANTS.PLAYER_MSG_MARGIN;
+                break;
+            case rightSpace:
+                msg.x = player.x + player.width + CONSTANTS.PLAYER_MSG_MARGIN;
+                msg.y = player.y;
+                break;
+            case bottomSpace:
+                msg.x = player.x;
+                msg.y = player.y + player.height + CONSTANTS.PLAYER_MSG_MARGIN;
+        }
 
         msg.show();
     }

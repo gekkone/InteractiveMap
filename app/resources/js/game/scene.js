@@ -47,6 +47,10 @@ export default class Scene {
         this._objects.set(name, object);
     }
 
+    removeObject(name) {
+        this._objects.delete(name);
+    }
+
     get isLoad() {
         return this._isLoad;
     }
