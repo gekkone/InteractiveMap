@@ -1,6 +1,8 @@
-export default class QuestMessage {
+import DisplayObject from "../displayObject"
+
+export default class QuestMessage extends DisplayObject {
     constructor(scene) {
-        this._scene = scene;
+        super(scene)
 
         this.maxWidth = 300;
         this.maxHeight = 400;
@@ -8,6 +10,20 @@ export default class QuestMessage {
         this._element = document.createElement('div');
         this._element.setAttribute('class', 'popup_message');
         document.body.appendChild(this._element);
+
+        this.isVisible = false;
+    }
+
+    render(time) {
+        super.render(time)
+        let pos = this.canvasPos();
+        if (this._element.style.left != `${pos.x}px`) {
+            this._element.style.left = `${pos.x}px`;
+        }
+
+        if (this._element.style.top != `${pos.y}px`) {
+            this._element.style.top = `${pos.y}px`;
+        }
     }
 
     setText(text) {
@@ -29,16 +45,15 @@ export default class QuestMessage {
         actionsElm.appendChild(actionElm);
     }
 
-    setPosition(x, y) {
-        this._element.style.left = `${x}px`;
-        this._element.style.top = `${y}px`;
-    }
-
     show() {
-        this._element.style.opacity = '1';
+        setTimeout(() => {
+            this.isVisible = true;
+            this._element.style.opacity = '1';
+        }, 20)
     }
 
     hide() {
+        this.isVisible = false;
         this._element.style.opacity = '0';
     }
 }

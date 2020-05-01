@@ -92,6 +92,7 @@ export default class QuestScene extends Scene {
         let msgPos = {x: 0, y: 0};
 
         let msg = new QuestMessage(this);
+        this.addObject('questionMsg', msg);
 
         // switch (Math.max(leftSpace, topSpace, rightSpace, bottomSpace)) {
         //     case leftSpace:
@@ -111,10 +112,8 @@ export default class QuestScene extends Scene {
         //         msgPos.y = player.y + player.height + msg.maxHeight + CONSTANTS.PLAYER_MSG_MARGIN;
         // }
 
-        msgPos.x = player.canvasPos().x + player.width + CONSTANTS.PLAYER_MSG_MARGIN;
-        msgPos.y = player.canvasPos().y;
-
-        msg.setPosition(msgPos.x, msgPos.y);
+        msg.x = player.x + player.width + CONSTANTS.PLAYER_MSG_MARGIN;
+        msg.y = player.y;
 
         let data = this.currentQuestPoint.data;
         msg.setText(data.message);

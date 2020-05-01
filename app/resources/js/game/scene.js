@@ -63,6 +63,10 @@ export default class Scene {
             }
 
             this._objects.forEach((object, name) => {
+                if (!object.isVisible) {
+                    return;
+                }
+
                 if (this.camera != null) {
                     // Следует отрисовывать только видимые объекты
                     if (object.x <= this.camera.x + this.camera.width
