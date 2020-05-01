@@ -4,7 +4,7 @@ export default class Player extends MovableObject {
     constructor(image, scene) {
         super(scene);
         this._image = image;
-        this._scale = 0.09;
+        this._scale = 0.2;
 
         this._width = image.width * this._scale;
         this._height = image.height * this._scale;
