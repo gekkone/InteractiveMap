@@ -8,7 +8,7 @@ export default class DisplayObject extends EventTarget {
             this._scene = scene;
         }
         else {
-            console.error('!scene instanceOf Scene');
+            throw '!scene instanceOf Scene';
         }
 
         this._x = 0;

@@ -4,11 +4,13 @@ export default class Player extends MovableObject {
     constructor(image, scene) {
         super(scene);
         this._image = image;
-        this._scale = 0.2;
+        this._scale = 1;
 
-        this._width = image.width * this._scale;
-        this._height = image.height * this._scale;
         this._speed = 30;
+        this.zIndex = 999;
+
+        this.width = this._image.width * this._scale;
+        this.height = this._image.height * this._scale;
     }
 
     render (time) {
@@ -21,7 +23,8 @@ export default class Player extends MovableObject {
             pos.y,
             this.width,
             this.height);
-            this.scene.game.context.filter = 'none';
+
+        this.scene.game.context.filter = 'none';
 
         super.render(time);
     }

@@ -4,6 +4,7 @@ export default class Scene {
     constructor(name, game) {
         this._isLoad = false;
         this._objects = new Map();
+        this._indexObjects = new Array();
 
         this.imageResources = new Map();
         this.camera = null;
@@ -43,12 +44,27 @@ export default class Scene {
         return { x: canvasX, y: canvasY };
     }
 
-    addObject(name, object) {
-        this._objects.set(name, object);
+    addObject(name, appendObject) {
+        this._objects.set(name, appendObject);
+
+        for (let i = 0; i < this._indexObjects.length; ++i) {
+            let object = this._indexObjects[i];
+            if (appendObject.zIndex < object.zIndex) {
+                this._indexObjects.splice(i, 0, appendObject);
+
+                return;
+            }
+        }
+
+        this._indexObjects.push(appendObject);
     }
 
     removeObject(name) {
         this._objects.delete(name);
+    }
+
+    getObject(name) {
+        return this._objects.get(name);
     }
 
     get isLoad() {
@@ -70,7 +86,7 @@ export default class Scene {
                 this.camera.render(time);
             }
 
-            this._objects.forEach((object, name) => {
+            this._indexObjects.forEach(object => {
                 if (!object.isVisible) {
                     return;
                 }
