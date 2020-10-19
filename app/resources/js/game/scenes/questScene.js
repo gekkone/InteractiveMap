@@ -49,7 +49,7 @@ export default class QuestScene extends Scene {
 
         player.x = 800;
         player.y = 700;
-        this.setCurrentQuestPoint(this.createQuestPoint(1));
+        this.setCurrentQuestPoint(1);
     }
 
     createQuestPoint(id) {
@@ -65,14 +65,31 @@ export default class QuestScene extends Scene {
         return questPoint;
     }
 
-    setCurrentQuestPoint(questPoint) {
+    setCurrentQuestPoint(questPointId) {
+        let questPoint = this._objects.get(`quest-point-${questPointId}`);
+        if (!questPoint) {
+            questPoint = this.createQuestPoint(questPointId);
+        }
+
+
         if (!questPoint instanceof QuestPoint) {
             console.error("Не удалось установить текущую точку квеста, передан невалидный объект");
             console.error(questPoint);
+            return;
         }
 
         let player = this._objects.get('player');
-        player.moveTo(questPoint.x - player.width / 3.6, questPoint.y - player.height, 4);
+        let differenceWidth = Math.abs((player.width - questPoint.width) / 2);
+        let playerPoint = 0;
+
+        if (player.width >= questPoint.width) {
+            playerPoint = questPoint.x - differenceWidth;
+        } else {
+            playerPoint = questPoint.x + differenceWidth;
+        }
+
+
+        player.moveTo(playerPoint, questPoint.y - player.height, 4);
         this.currentQuestPoint = questPoint;
     }
 
@@ -81,13 +98,6 @@ export default class QuestScene extends Scene {
         if (player == null || this.currentQuestPoint == null) {
             return;
         }
-
-        let leftSpace = player.x - this.camera.x;
-        let topSpace = player.y - this.camera.y;
-        let rightSpace = this.camera.x + this.camera.width - player.x - player.width;
-        let bottomSpace = this.camera.y + this.camera.height - player.y - player.height;
-
-        console.debug(leftSpace, topSpace, rightSpace, bottomSpace);
 
         let msg = new QuestMessage(this);
         this.addObject('questionMsg', msg);
@@ -100,36 +110,19 @@ export default class QuestScene extends Scene {
                 text: elm.text,
                 fn: () => {
                     msg.hide();
-                    msg.remove();
-                    this.removeObject('questionMsg');
-                    this.takingDecision(elm.id);
+                    setTimeout(() => {
+                        msg.remove();
+                        this.removeObject('questionMsg');
+                        this.takingDecision(elm.id);
+                    }, 500);
                 }
             })
         });
-
-        switch (Math.max(leftSpace, topSpace, rightSpace, bottomSpace)) {
-            case leftSpace:
-                console.debug(msg.width, msg._element.offsetWidth);
-                msg.x = player.x - msg.width - CONSTANTS.PLAYER_MSG_MARGIN;
-                msg.y = player.y;
-                break;
-            case topSpace:
-                msg.x = player.x;
-                msg.y = player.y - msg.maxHeight - CONSTANTS.PLAYER_MSG_MARGIN;
-                break;
-            case rightSpace:
-                msg.x = player.x + player.width + CONSTANTS.PLAYER_MSG_MARGIN;
-                msg.y = player.y;
-                break;
-            case bottomSpace:
-                msg.x = player.x;
-                msg.y = player.y + player.height + CONSTANTS.PLAYER_MSG_MARGIN;
-        }
 
         msg.show();
     }
 
     takingDecision(id) {
-        this.setCurrentQuestPoint(this.createQuestPoint(id));
+        this.setCurrentQuestPoint(id);
     }
 }
