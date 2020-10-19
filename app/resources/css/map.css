@@ -9,18 +9,36 @@ body {
 }
 
 .popup_message {
-    display: block;
+    display: flex;
+    flex-direction: column;
     position: absolute;
     background: rgba(0, 0, 0, 0.9);
     color: #fff;
-    border-radius: 7px;
-
-    min-width: 100px;
-    min-height: 60px;
 
     transition: opacity 1s;
     opacity: 0;
     overflow: hidden;
+}
+
+@media only screen and (min-width: 481px) {
+    .popup_message {
+        min-width: 100px;
+        min-height: 60px;
+
+        max-width: 400px;
+        max-height: 350px;
+
+        border-radius: 7px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .popup_message {
+        top: 0!important;
+        left: 0!important;
+        width: 100vw!important;
+        height: 100vh!important;
+    }
 }
 
 .popup_message__title {
@@ -29,9 +47,21 @@ body {
     margin: 0;
 }
 
+@media only screen and (max-width: 480px) {
+    .popup_message__title {
+        flex: auto;
+    }
+}
+
 .popup_message__actions {
     display: flex;
     flex-direction: column;
+}
+
+@media only screen and (max-width: 480px) {
+    .popup_message__actions span {
+        justify-content: center;
+    }
 }
 
 .popup_message__actions:hover span {

@@ -45,7 +45,7 @@ export default class QuestPoint extends DisplayObject {
 
         let pos = this.canvasPos();
 
-        this.scene.game.context.filter = 'drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.8))';
+        this.scene.game.context.filter = 'drop-shadow(2px 2px 3px rgba(222, 183, 97, 0.8))';
         this.scene.game.context.drawImage(
             this._image,
             pos.x,
