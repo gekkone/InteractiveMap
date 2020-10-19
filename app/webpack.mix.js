@@ -26,10 +26,11 @@ mix.webpackConfig({
 
 mix.disableNotifications();
 
-// if (mix.inProduction()) {
-//     mix.version();
-// }
+if (mix.inProduction()) {
+    mix.version();
+}
 
-// mix.browserSync({
-//     proxy: 'my-domain.dev'
-// });
+mix.browserSync({
+    proxy: 'localhost',
+    port: 8000
+});

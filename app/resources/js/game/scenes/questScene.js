@@ -6,6 +6,7 @@ import QuestPoint from '../objects/questPoint'
 import QuestMessage from '../objects/questMessage';
 import QuestPointManager from '../questPointManager';
 import CONSTANTS from '../constants';
+import VersionInfo from '../objects/versionInfo';
 
 export default class QuestScene extends Scene {
     constructor(name, game) {
@@ -46,6 +47,9 @@ export default class QuestScene extends Scene {
         this.addObject('player', player);
         this.camera.followAt(player, CONSTANTS.CAMERA_FOLLOW_OBJECT_BORDER_DISTANCE);
         player.addEventListener('arrivedPosition', this.playerArrivedPosition.bind(this));
+
+        let version = new VersionInfo('Версия 0.2.0-alpha', this);
+        this.addObject('versionInfo', version);
 
         player.x = 800;
         player.y = 700;

@@ -1,4 +1,3 @@
-import ImageLoader from "../imageLoader"
 import DisplayObject from '../displayObject'
 
 export default class GameMap extends DisplayObject {

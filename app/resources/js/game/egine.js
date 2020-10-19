@@ -3,16 +3,18 @@ import Scene from './scene';
 export default class Engine extends EventTarget {
     constructor(canvas) {
         super();
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
         this.canvas = canvas;
         this.context = canvas.getContext('2d');
         this._scenes = new Map();
         this._activeScene = null;
 
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+
         window.addEventListener('resize', () => {
             this.canvas.width = window.innerWidth;
             this.canvas.height = window.innerHeight;
+
             this.dispatchEvent(new CustomEvent('resizeCanvas', {
                 detail: {
                     width: window.innerWidth,

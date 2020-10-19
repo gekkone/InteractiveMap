@@ -21,7 +21,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "name": "interactive-map",
-  "version": "0.1.0-alpha",
+  "version": "0.2.0-alpha",
   "main": "webpack.mix.js",
   "directories": {
     "test": "tests"
