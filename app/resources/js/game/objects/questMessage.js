@@ -63,7 +63,7 @@ export default class QuestMessage extends DisplayObject {
         }
 
         let actionElm = document.createElement('span');
-        actionElm.innerHTML = action.text;
+        actionElm.innerHTML = `<div class="popup_message__action_text">${action.text}</div>`;
         actionElm.addEventListener('click', action.fn);
 
         actionsElm.appendChild(actionElm);

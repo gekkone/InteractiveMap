@@ -61,7 +61,19 @@ body {
 @media only screen and (max-width: 480px) {
     .popup_message__actions span {
         justify-content: center;
+        text-align: center;
+        padding-left: 0;
     }
+}
+
+.popup_message__actions span::before {
+    content: ' ';
+    border: 7px solid transparent;
+    border-left: 7px solid #e1b766;
+}
+
+.popup_message__actions span:hover::before {
+    border-left-color: #fff;
 }
 
 .popup_message__actions:hover span {
@@ -71,7 +83,7 @@ body {
 .popup_message__actions span {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 10px 10px 10px 0;
     min-height: 25px;
     transition: filter 0.5s ease-out;
 }
@@ -83,4 +95,8 @@ body {
     cursor: pointer;
     filter: blur(0px)!important;
     transition: filter 0.2s ease-out;
+}
+
+.popup_message__action_text {
+    width: 100%;
 }
